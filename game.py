@@ -1,9 +1,13 @@
 import displayio
+import random
+import terminalio
+from adafruit_display_text import label
+from time import sleep
 
 game_group = displayio.Group()
 
-
-
+cowboy = displayio.OnDiskBitmap()
+desert = displayio.OnDiskBitmap()
 
 def game_setup():
     """this is called once to initialize your game features"""
