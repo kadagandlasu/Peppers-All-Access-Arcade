@@ -121,6 +121,26 @@ def score(cowboy1_win:bool,cowboy2:bool):
     
 
 
+def dynam_timer():
+	#timer would go something like this
+	timer_time = random.randint(2,7)
+	time.sleep(timer_time)
+
+#set player score
+player_1_win = false
+player_2_win = false
+player_1_score = 0
+player_2_score = 0
+
+#if player wins give them point
+def player_score():
+	global player_1_score
+	global player_2_score
+if player_1_win =  true:
+	player_1_score += 1
+if player_2_win = true:
+	Player_2_score += 1
+
 def game_setup():
     """this is called once to initialize your game features"""
     game_group.append(bkgnd)
