@@ -3,7 +3,6 @@ import random
 import terminalio
 from adafruit_display_text import label
 import time
-import math
 
 game_group = displayio.Group()
 
@@ -78,6 +77,7 @@ def difficulty(p1_button:bool, p2_button:bool):
 def comp_react():
     global initial
     initial = time.time()
+    round(initial)
     global seconds
     if diff_setting == "casual":
         seconds == random.randint(3,4)
@@ -168,7 +168,7 @@ def game_frame(p1_button:bool,p2_button:bool) -> bool:
         if p1_button:
             win_animate(True,False)
             score(True,False)
-        elif time.time() > ceil(initial) + seconds and time.time() < initial + seconds + 0.5:
+        elif time.time() > initial + seconds - 0.2 and time.time() < initial + seconds + 0.2:
             win_animate(False, True)
             score(False,True)
     elif cowboy_count == 2:
