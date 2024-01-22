@@ -20,6 +20,7 @@ cowboy1 = displayio.TileGrid(
     tile_width = 6, tile_height = 2
 )
 cowboy1.pixel_shader.make_transparent(10)
+cowboy1.y = 32
 
 cowboy2 = displayio.TileGrid(
     cowboy_sprites, 
@@ -31,6 +32,7 @@ cowboy2 = displayio.TileGrid(
 )
 cowboy2.pixel_shader.make_transparent(10)
 cowboy2.x = 32
+cowboy2.y = 32
 
 dynamite = displayio.TileGrid(
     dynamite_sprites, 
@@ -40,7 +42,8 @@ dynamite = displayio.TileGrid(
     tile_width = 4, 
     tile_height = 1
 )
-dynamite.x = 25
+dynamite.pixel_shader.make_transparent(10)
+dynamite.x = 16
 
 cowboy1_score = 0
 cowboy2_score = 0
@@ -77,12 +80,12 @@ def difficulty(p1_button:bool, p2_button:bool):
 def comp_react():
     global initial
     initial = time.time()
-    round(initial)
+    initial = round(initial,1)
     global seconds
     if diff_setting == "casual":
         seconds == random.randint(3,4)
     elif diff_setting == "challenging":
-        seconds == random.randint(2,3)
+        seconds == random.randint(1,2)
 
 
 def win_animate(cowboy1_win:bool,cowboy2_win:bool):
@@ -168,7 +171,7 @@ def game_frame(p1_button:bool,p2_button:bool) -> bool:
         if p1_button:
             win_animate(True,False)
             score(True,False)
-        elif time.time() > initial + seconds - 0.2 and time.time() < initial + seconds + 0.2:
+        elif time.time() >= initial + seconds - 0.3 and time.time() <= initial + seconds + 0.3:
             win_animate(False, True)
             score(False,True)
     elif cowboy_count == 2:
