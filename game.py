@@ -3,6 +3,7 @@ import random
 import terminalio
 from adafruit_display_text import label
 import time
+import math
 
 game_group = displayio.Group()
 
@@ -167,7 +168,7 @@ def game_frame(p1_button:bool,p2_button:bool) -> bool:
         if p1_button:
             win_animate(True,False)
             score(True,False)
-        elif time.time() == initial + seconds:
+        elif time.time() > ceil(initial) + seconds and time.time() < initial + seconds + 0.5:
             win_animate(False, True)
             score(False,True)
     elif cowboy_count == 2:
