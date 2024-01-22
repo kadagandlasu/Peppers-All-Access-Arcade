@@ -7,7 +7,7 @@ import time
 game_group = displayio.Group()
 
 cowboy_sprites = displayio.OnDiskBitmap("western/sprite_sheet.bmp")
-#dynamite_sprites = displayio.OnDiskBitmap("western/dynamite_sprite_sheet.bmp")
+dynamite_sprites = displayio.OnDiskBitmap("western/dynamite_sprite_sheet.bmp")
 #desert = displayio.OnDiskBitmap("western/desert.bmp")
 
 #bkgnd = displayio.TileGrid(desert, pixel_shader = desert.pixel_shader)
@@ -32,14 +32,15 @@ cowboy2 = displayio.TileGrid(
 cowboy2.pixel_shader.make_transparent(10)
 cowboy2.x = 32
 
-"""dynamite = displayio.TileGrid(
+dynamite = displayio.TileGrid(
     dynamite_sprites, 
     pixel_shader = dynamite_sprites.pixel_shader,
     width = 32, 
     height = 32,
     tile_width = 4, 
     tile_height = 1
-)"""
+)
+dynamite.x = 25
 
 cowboy1_score = 0
 cowboy2_score = 0
@@ -78,9 +79,9 @@ def comp_react():
     initial = time.time()
     global seconds
     if diff_setting == "casual":
-        seconds == random.randint(2,3)
+        seconds == random.randint(3,4)
     elif diff_setting == "challenging":
-        seconds == random.randint(1,2)
+        seconds == random.randint(2,3)
 
 
 def win_animate(cowboy1_win:bool,cowboy2_win:bool):
@@ -90,12 +91,10 @@ def win_animate(cowboy1_win:bool,cowboy2_win:bool):
         cowboy1[0] = 2
         time.sleep(0.5)
         cowboy2[0] = 10
-        #dynamite[0] = 1
+        dynamite[0] = 2
         time.sleep(0.25)
         cowboy2[0] = 11
         cowboy1[0] = 1
-        time.sleep(0.25)
-        #dynamite[0] = 2
         time.sleep(0.25)
         cowboy1[0] = 3
     elif cowboy1_win == False and cowboy2_win == True:
@@ -104,12 +103,10 @@ def win_animate(cowboy1_win:bool,cowboy2_win:bool):
         cowboy2[0] = 8
         time.sleep(0.5)
         cowboy1[0] = 4
-        #dynamite[0] = 1
+        dynamite[0] = 2
         time.sleep(0.25)
         cowboy1[0] = 5
         cowboy2[0] = 7
-        time.sleep(0.25)
-        #dynamite[0] = 2
         time.sleep(0.25)
         cowboy2[0] = 9
 
@@ -149,7 +146,7 @@ def game_setup():
     #game_group.append(bkgnd)
     game_group.append(cowboy1)
     game_group.append(cowboy2)
-    #game_group.append(dynamite)
+    game_group.append(dynamite)
     display.root_group = game_group
     
 
@@ -158,7 +155,7 @@ def game_frame(p1_button:bool,p2_button:bool) -> bool:
         returns True when the game is over, else return false"""
     cowboy1[0] = 0
     cowboy2[0] = 6
-    #dynamite[0] = 0
+    dynamite[0] = 0
     if cowboy_count != 1 or cowboy_count != 2:
         player_count(p1_button,p2_button)
     if diff_setting != "casual" or diff_setting != "challenging":
@@ -166,7 +163,7 @@ def game_frame(p1_button:bool,p2_button:bool) -> bool:
     if cowboy_count == 1:
         time.sleep(random.randint(2,5))
         comp_react()
-        #dynamite[0] = 1
+        dynamite[0] = 1
         if p1_button:
             win_animate(True,False)
             score(True,False)
@@ -175,7 +172,7 @@ def game_frame(p1_button:bool,p2_button:bool) -> bool:
             score(False,True)
     elif cowboy_count == 2:
         time.sleep(random.randint(2,5))
-        #dynamite[0] = 1
+        dynamite[0] = 1
         if p1_button:
             win_animate(True,False)
             score(True,False)
@@ -196,7 +193,7 @@ def game_over():
     
     game_group.remove(cowboy1)
     game_group.remove(cowboy2)
-    #game_group.remove(dynamite)
+    game_group.remove(dynamite)
     text = str(cowboy1_score) + " - " + str(cowboy2_score)
     font = terminalio.FONT
     color = 0x0000FF
