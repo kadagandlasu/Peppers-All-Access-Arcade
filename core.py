@@ -23,11 +23,7 @@ menu_outline_color = 0x222222
 # initialize peripherals
 i2c = board.I2C()  # uses board.SCL and board.SDA
 # setup encoder
-encoder_board = Seesaw(i2c, addr=0x36)
-encoder_board.pin_mode(24, encoder_board.INPUT_PULLUP)
-encoder_button = DigitalIO(encoder_board, 24)
-encoder = rotaryio.IncrementalEncoder(encoder_board)
-last_position = 1
+
 
 # setup arcade buttons
 arcade_qt = Seesaw(i2c, addr=0x3A)
@@ -43,6 +39,12 @@ p2.direction = digitalio.Direction.INPUT
 p2.pull = digitalio.Pull.UP
 p2_led = DigitalIO(arcade_qt, 13)
 p2_led.direction = digitalio.Direction.OUTPUT
+
+coin = DigitalIO(arcade_qt, 20)
+coin.direction = digitalio.Direction.INPUT
+coin.pull = digitalio.Pull.UP
+coin_led = DigitalIO(arcade_qt, 0)
+coin_led.direction = digitalio.Direction.OUTPUT
 
 
 def set_speed() -> float:
@@ -60,19 +62,7 @@ def set_speed() -> float:
     setup_group.append(progress_bar)
     setup_group.append(header)
 
-    while encoder_button.value:
-        position = encoder.position
-        if position < last_position:
-            working_speed -= 3
-            if working_speed < 1:
-                working_speed = 1
-            last_position = position
-        elif position > last_position:
-            working_speed += 3
-            if working_speed > 100:
-                working_speed = 100
-            last_position = position
-        progress_bar.value = working_speed
+
 
     # map the working_speed to fractions of a second
     setup_group.remove(progress_bar)
