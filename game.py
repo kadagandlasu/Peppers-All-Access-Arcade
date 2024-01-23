@@ -8,9 +8,9 @@ game_group = displayio.Group()
 
 cowboy_sprites = displayio.OnDiskBitmap("western/sprite_sheet.bmp")
 dynamite_sprites = displayio.OnDiskBitmap("western/dynamite_sprite_sheet.bmp")
-#desert = displayio.OnDiskBitmap("western/desert.bmp")
+desert = displayio.OnDiskBitmap("western/background.bmp")
 
-#bkgnd = displayio.TileGrid(desert, pixel_shader = desert.pixel_shader)
+bkgnd = displayio.TileGrid(desert, pixel_shader = desert.pixel_shader)
 
 cowboy1 = displayio.TileGrid(
     cowboy_sprites, 
@@ -20,7 +20,7 @@ cowboy1 = displayio.TileGrid(
     tile_width = 6, tile_height = 2
 )
 cowboy1.pixel_shader.make_transparent(10)
-cowboy1.y = 32
+cowboy1.y = 31
 
 cowboy2 = displayio.TileGrid(
     cowboy_sprites, 
@@ -31,8 +31,8 @@ cowboy2 = displayio.TileGrid(
     tile_height = 2
 )
 cowboy2.pixel_shader.make_transparent(10)
-cowboy2.x = 32
-cowboy2.y = 32
+cowboy2.x = 31
+cowboy2.y = 31
 
 dynamite = displayio.TileGrid(
     dynamite_sprites, 
@@ -43,7 +43,7 @@ dynamite = displayio.TileGrid(
     tile_height = 1
 )
 dynamite.pixel_shader.make_transparent(10)
-dynamite.x = 16
+dynamite.x = 15
 
 cowboy1_score = 0
 cowboy2_score = 0
@@ -73,7 +73,7 @@ def difficulty(p1_button:bool, p2_button:bool):
         if p1_button:
             diff_setting = "casual"
         if p2_button:
-            diff_setting "challenging"
+            diff_setting = "challenging"
     game_group.remove(text_area)
     
 
@@ -126,28 +126,14 @@ def score(cowboy1_win:bool,cowboy2:bool):
 
 
 def dynam_timer():
-	#timer would go something like this
-	timer = random.randint(2,7)
-	time.sleep(timer)
+    #timer would go something like this
+    timer = random.randint(2,7)
+    time.sleep(timer)
 
-#set player score
-player_1_win = false
-player_2_win = false
-player_1_score = 0
-player_2_score = 0
-
-#if player wins give them point
-def player_score():
-	global player_1_score
-	global player_2_score
-if player_1_win =  true:
-	player_1_score += 1
-if player_2_win = true:
-	Player_2_score += 1
 
 def game_setup():
     """this is called once to initialize your game features"""
-    #game_group.append(bkgnd)
+    game_group.append(bkgnd)
     game_group.append(cowboy1)
     game_group.append(cowboy2)
     game_group.append(dynamite)
@@ -210,7 +196,7 @@ def game_over():
 	text_area.text = "BLUE COWBOY WINS"
     time.sleep(3)
     game_group.remove(text_area)
-    #game_group.remove(bkgnd)
+    game_group.remove(bkgnd)
     cowboy1_score = 0
     cowboy2_score = 0
     diff_setting = ""
