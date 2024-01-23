@@ -1,3 +1,6 @@
+#v1.1 added in button presses to game_setup function
+
+
 import board
 import busio
 import digitalio
@@ -20,11 +23,12 @@ matrix = rgbmatrix.RGBMatrix(
     width=64,
     height=64,
     bit_depth=3,
-    rgb_pins=[board.R0, board.B0, board.G0, board.R1, board.B1, board.G1],
-    addr_pins=[board.ROW_A, board.ROW_B, board.ROW_C, board.ROW_D, board.ROW_E],
+    rgb_pins=[board.R0, board.G0, board.B0, board.R1, board.G1, board.B1],
+    addr_pins=[board.ROW_A, board.ROW_B, board.ROW_C, board.ROW_D,board.ROW_E],
     clock_pin=board.CLK,
     latch_pin=board.LAT,
     output_enable_pin=board.OE,
+
 )
 display = framebufferio.FramebufferDisplay(matrix, auto_refresh=True)
 
@@ -45,6 +49,7 @@ screen.append(setup_group)
 # inistialize the game play variables
 p1_clicked = False
 p2_clicked = False
+coin_clicked = False
 refresh_every = 0.5
 now = monotonic()
 
@@ -63,6 +68,9 @@ while True:
     if not p2.value:
         p2_clicked = True
         p2_led.value = True
+    if not coin.value:
+        coin_clicked = True
+        coin_led.value = True
 
 
     if state == "INITIALIZE":
@@ -70,7 +78,13 @@ while True:
         now = monotonic()
         if game_group not in screen:
             screen.append(game_group)
-        game_setup()
+        game_setup(p1_clicked, p1_clicked, coin_clicked)
+        p1_clicked = False
+        p2_clicked = False
+        p1_led.value = False
+        p2_led.value = False
+        coin_clicked = True
+        coin_led.value = True
         state = "PLAY"
 
 
@@ -79,16 +93,24 @@ while True:
         # call the new game_frame
         if now + refresh_every < monotonic():
             now = monotonic()
-            if game_frame(p1.value, p2.value):
+            if game_frame(p1_clicked, p1_clicked, coin_clicked):
                 state = "GAME OVER"
             # release the button latch
             p1_clicked = False
             p2_clicked = False
             p1_led.value = False
             p2_led.value = False
+            coin_clicked = True
+            coin_led.value = True
 
     elif state == "GAME OVER":
-        game_over()
+        game_over(p1_button,p2_button, coin_button)
+        p1_clicked = False
+        p2_clicked = False
+        p1_led.value = False
+        p2_led.value = False
+        coin_clicked = True
+        coin_led.value = True
         state = "INITIALIZE"
 
     elif state == "SETUP":
