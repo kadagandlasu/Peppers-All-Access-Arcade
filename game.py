@@ -75,17 +75,13 @@ def difficulty(p1_button:bool, p2_button:bool):
         if p2_button:
             diff_setting = "challenging"
     game_group.remove(text_area)
-    
 
-def comp_react():
-    global initial
-    initial = time.time()
-    initial = round(initial,1)
-    global seconds
+def add_comp_frames():
+    global comp_frames
     if diff_setting == "casual":
-        seconds == random.randint(3,4)
+	comp_frames = random.randint(15,25)
     elif diff_setting == "challenging":
-        seconds == random.randint(1,2)
+	comp_frames = random.randint(7,14)
 
 
 def win_animate(cowboy1_win:bool,cowboy2_win:bool):
@@ -122,27 +118,22 @@ def score(cowboy1_win:bool,cowboy2:bool):
         cowboy1_score += 1
     elif cowboy1_win == False and cowboy2_win == True:
         cowboy2_score += 1
-    
 
 
-def dynam_timer():
-    #timer would go something like this
-    timer = random.randint(2,7)
-    time.sleep(timer)
-
-
-def game_setup():
+def game_setup(p1_button:bool,p2_button:bool,coin_button:bool):
     """this is called once to initialize your game features"""
+    global frame_counter
     game_group.append(bkgnd)
     game_group.append(cowboy1)
     game_group.append(cowboy2)
     game_group.append(dynamite)
     display.root_group = game_group
-    
+    frame_counter = 0
 
-def game_frame(p1_button:bool,p2_button:bool) -> bool:
+def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
     """this is called every frame, you need to update all your game objects
         returns True when the game is over, else return false"""
+    global frame_counter
     cowboy1[0] = 0
     cowboy2[0] = 6
     dynamite[0] = 0
@@ -151,30 +142,46 @@ def game_frame(p1_button:bool,p2_button:bool) -> bool:
     if diff_setting != "casual" or diff_setting != "challenging":
         difficulty(p1_button,p2_button)
     if cowboy_count == 1:
-        time.sleep(random.randint(2,5))
-        comp_react()
-        dynamite[0] = 1
-        if p1_button:
-            win_animate(True,False)
-            score(True,False)
-        elif time.time() >= initial + seconds - 0.3 and time.time() <= initial + seconds + 0.3:
-            win_animate(False, True)
-            score(False,True)
+        final_frame = random.randint(10,60)
+	comp_react = final_frame + comp_frames
+	temp_cowboy1_score = cowboy1_score
+	temp_cowboy2_score = cowboy2_score
+        while True:
+	    frame_count += 1
+	    if frame_count < final_frame:
+		continue
+	    dynamite[0] = 1
+	    if cowboy1_score == temp_cowboy1_score + 1 or cowboy2_score == temp_cowboy2_score + 1:
+	        break
+            if p1_button:
+            	score(True,False)
+		win_animate(True,False) 
+            elif frame_count == comp_react:
+                score(False,True)
+		win_animate(False, True)
     elif cowboy_count == 2:
-        time.sleep(random.randint(2,5))
-        dynamite[0] = 1
-        if p1_button:
-            win_animate(True,False)
-            score(True,False)
-        elif p2_button:
-            win_animate(False,True)
-            score(True,False)
+        final_frame = random.randint(10,60)
+	temp_cowboy1_score = cowboy1_score
+	temp_cowboy2_score = cowboy2_score
+        while True:
+	    frame_count += 1
+	    if frame_count < final_frame:
+		continue
+	    dynamite[0] = 1
+	    if cowboy1_score == temp_cowboy1_score + 1 or cowboy2_score == temp_cowboy2_score + 1:
+	        break
+            if p1_button:
+            	score(True,False)
+		win_animate(True,False) 
+            elif p2_button:
+                score(False,True)
+		win_animate(False, True)
     if cowboy1_score == 2 or cowboy2_score == 2:
         return True
     return False
 
 
-def game_over():
+def game_over(p1_button:bool,p2_button:bool,coin_button:bool):
     """this should display your game over screen with score also clean up the game_group"""
     global cowboy1_score
     global cowboy2_score
