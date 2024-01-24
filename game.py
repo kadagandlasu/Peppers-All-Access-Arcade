@@ -87,27 +87,19 @@ def add_comp_frames():
 def win_animate(cowboy1_win:bool,cowboy2_win:bool):
     if cowboy1_win == True and cowboy2_win == False:
         cowboy1[0] = 1
-        time.sleep(0.25)
         cowboy1[0] = 2
-        time.sleep(0.5)
         cowboy2[0] = 10
         dynamite[0] = 2
-        time.sleep(0.25)
         cowboy2[0] = 11
         cowboy1[0] = 1
-        time.sleep(0.25)
         cowboy1[0] = 3
     elif cowboy1_win == False and cowboy2_win == True:
         cowboy2[0] = 7
-        time.sleep(0.25)
         cowboy2[0] = 8
-        time.sleep(0.5)
         cowboy1[0] = 4
         dynamite[0] = 2
-        time.sleep(0.25)
         cowboy1[0] = 5
         cowboy2[0] = 7
-        time.sleep(0.25)
         cowboy2[0] = 9
 
 
@@ -176,6 +168,7 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
             elif p2_button:
                 score(False,True)
 		win_animate(False, True)
+    frame_count = 0
     if cowboy1_score == 2 or cowboy2_score == 2:
         return True
     return False
