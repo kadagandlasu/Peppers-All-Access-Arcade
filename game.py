@@ -6,9 +6,9 @@ import time
 
 game_group = displayio.Group()
 
-cowboy_sprites = displayio.OnDiskBitmap("western/sprite_sheet.bmp")
-dynamite_sprites = displayio.OnDiskBitmap("western/dynamite_sprite_sheet.bmp")
-desert = displayio.OnDiskBitmap("western/background.bmp")
+cowboy_sprites = displayio.OnDiskBitmap("western/cowboys.bmp")
+dynamite_sprites = displayio.OnDiskBitmap("western/dynamite.bmp")
+desert = displayio.OnDiskBitmap("western/desert.bmp")
 
 bkgnd = displayio.TileGrid(desert, pixel_shader = desert.pixel_shader)
 
@@ -47,6 +47,7 @@ dynamite.x = 15
 
 cowboy1_score = 0
 cowboy2_score = 0
+cowboy_count = -1
 
 def player_count(p1_button:bool, p2_button:bool):
     text = "1-PLAYER      2-PLAYER"
@@ -119,7 +120,6 @@ def game_setup(p1_button:bool,p2_button:bool,coin_button:bool):
     game_group.append(cowboy1)
     game_group.append(cowboy2)
     game_group.append(dynamite)
-    display.root_group = game_group
     frame_counter = 0
 
 def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
@@ -200,4 +200,4 @@ def game_over(p1_button:bool,p2_button:bool,coin_button:bool):
     cowboy1_score = 0
     cowboy2_score = 0
     diff_setting = ""
-    player_count = -1
+    cowboy_count = -1
