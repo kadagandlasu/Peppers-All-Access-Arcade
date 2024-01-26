@@ -7,7 +7,7 @@ import time
 game_group = displayio.Group()
 
 cowboys = displayio.OnDiskBitmap("western/cowboys.bmp")
-dynamite = displayio.OnDiskBitmap("western/dynamite.bmp")
+dynamite = displayio.OnDiskBitmap("western/dynamite2.bmp")
 desert = displayio.OnDiskBitmap("western/desert.bmp")
 
 bkgnd = displayio.TileGrid(desert, pixel_shader = desert.pixel_shader)
@@ -20,7 +20,7 @@ cowboy1 = displayio.TileGrid(
     tile_width = 6, tile_height = 2
 )
 cowboy1.pixel_shader.make_transparent(10)
-cowboy1.y = 31
+cowboy1.y = 15
 
 cowboy2 = displayio.TileGrid(
     cowboys, 
@@ -31,19 +31,19 @@ cowboy2 = displayio.TileGrid(
     tile_height = 2
 )
 cowboy2.pixel_shader.make_transparent(10)
-cowboy2.x = 31
-cowboy2.y = 31
+cowboy2.x = 15
+cowboy2.y = 15
 
 dynamite = displayio.TileGrid(
-    dynamite, 
-    pixel_shader = dynamite.pixel_shader,
+    dynamite2, 
+    pixel_shader = dynamite2.pixel_shader,
     width = 32, 
     height = 32,
-    tile_width = 4, 
+    tile_width = 3, 
     tile_height = 1
 )
 dynamite.pixel_shader.make_transparent(10)
-dynamite.x = 15
+dynamite.x = 7
 
 cowboy1_score = 0
 cowboy2_score = 0
