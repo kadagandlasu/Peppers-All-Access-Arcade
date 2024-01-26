@@ -6,8 +6,8 @@ import time
 
 game_group = displayio.Group()
 
-cowboy_sprites = displayio.OnDiskBitmap("western/cowboys.bmp")
-dynamite_sprites = displayio.OnDiskBitmap("western/dynamite.bmp")
+cowboys = displayio.OnDiskBitmap("western/cowboys.bmp")
+dynamite = displayio.OnDiskBitmap("western/dynamite.bmp")
 desert = displayio.OnDiskBitmap("western/desert.bmp")
 
 bkgnd = displayio.TileGrid(desert, pixel_shader = desert.pixel_shader)
