@@ -13,8 +13,8 @@ desert = displayio.OnDiskBitmap("western/desert.bmp")
 bkgnd = displayio.TileGrid(desert, pixel_shader = desert.pixel_shader)
 
 cowboy1 = displayio.TileGrid(
-    cowboy_sprites, 
-    pixel_shader = cowboy_sprites.pixel_shader,                 
+    cowboys, 
+    pixel_shader = cowboys.pixel_shader,                 
     width = 32, 
     height = 32, 
     tile_width = 6, tile_height = 2
@@ -23,8 +23,8 @@ cowboy1.pixel_shader.make_transparent(10)
 cowboy1.y = 31
 
 cowboy2 = displayio.TileGrid(
-    cowboy_sprites, 
-    pixel_shader = cowboy_sprites.pixel_shader,
+    cowboys, 
+    pixel_shader = cowboys.pixel_shader,
     width = 32, 
     height = 32,
     tile_width = 6, 
@@ -35,8 +35,8 @@ cowboy2.x = 31
 cowboy2.y = 31
 
 dynamite = displayio.TileGrid(
-    dynamite_sprites, 
-    pixel_shader = dynamite_sprites.pixel_shader,
+    dynamite, 
+    pixel_shader = dynamite.pixel_shader,
     width = 32, 
     height = 32,
     tile_width = 4, 
@@ -48,6 +48,7 @@ dynamite.x = 15
 cowboy1_score = 0
 cowboy2_score = 0
 cowboy_count = -1
+diff_setting = ""
 
 def player_count(p1_button:bool, p2_button:bool):
     text = "1-PLAYER      2-PLAYER"
