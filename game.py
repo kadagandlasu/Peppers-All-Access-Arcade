@@ -15,40 +15,37 @@ bkgnd = displayio.TileGrid(desert, pixel_shader = desert.pixel_shader)
 cowboy1 = displayio.TileGrid(
     cowboys, 
     pixel_shader = cowboys.pixel_shader,                 
-    width = 32, 
-    height = 32, 
-    tile_width = 6, tile_height = 2
+    width = 1, 
+    height = 1, 
+    tile_width = 32, 
+    tile_height = 32
 )
 cowboy1.pixel_shader.make_transparent(10)
-cowboy1.y = 15
+cowboy1.y = 31
 
 cowboy2 = displayio.TileGrid(
     cowboys, 
     pixel_shader = cowboys.pixel_shader,
-    width = 32, 
-    height = 32,
-    tile_width = 6, 
-    tile_height = 2
+    width = 1, 
+    height = 1,
+    tile_width = 32, 
+    tile_height = 32
 )
 cowboy2.pixel_shader.make_transparent(10)
-cowboy2.x = 15
-cowboy2.y = 15
+cowboy2.x = 31
+cowboy2.y = 31
 
 dynamite = displayio.TileGrid(
-    dynamite2, 
-    pixel_shader = dynamite2.pixel_shader,
-    width = 32, 
-    height = 32,
-    tile_width = 3, 
-    tile_height = 1
+    dynamite, 
+    pixel_shader = dynamite.pixel_shader,
+    width = 1, 
+    height = 1,
+    tile_width = 32, 
+    tile_height = 32
 )
 dynamite.pixel_shader.make_transparent(10)
-dynamite.x = 7
+dynamite.x = 15
 
-cowboy1_score = 0
-cowboy2_score = 0
-cowboy_count = -1
-diff_setting = ""
 
 def player_count(p1_button:bool, p2_button:bool):
     text = "1-PLAYER      2-PLAYER"
@@ -78,7 +75,7 @@ def difficulty(p1_button:bool, p2_button:bool):
             diff_setting = "challenging"
     game_group.remove(text_area)
 
-def add_comp_frames():
+def set_comp_frames():
     global comp_frames
     if diff_setting == "casual":
 	comp_frames = random.randint(15,25)
@@ -88,21 +85,29 @@ def add_comp_frames():
 
 def win_animate(cowboy1_win:bool,cowboy2_win:bool):
     if cowboy1_win == True and cowboy2_win == False:
-        cowboy1[0] = 1
-        cowboy1[0] = 2
-        cowboy2[0] = 10
-        dynamite[0] = 2
-        cowboy2[0] = 11
-        cowboy1[0] = 1
-        cowboy1[0] = 3
+        if ref_frame == frame_count:
+	    cowboy1[0] = 1
+	if ref_frame + 5 == frame_count
+            cowboy1[0] = 2
+            cowboy2[0] = 10
+	if ref_frame + 15 == frame_count:
+            dynamite[0] = 2
+            cowboy2[0] = 11
+            cowboy1[0] = 1
+        if ref_frame + 20 == frame_count:
+            cowboy1[0] = 3
     elif cowboy1_win == False and cowboy2_win == True:
-        cowboy2[0] = 7
-        cowboy2[0] = 8
-        cowboy1[0] = 4
-        dynamite[0] = 2
-        cowboy1[0] = 5
-        cowboy2[0] = 7
-        cowboy2[0] = 9
+        if ref_frame == frame_count:
+	    cowboy2[0] = 7
+	if ref_frame + 5 == frame_count
+            cowboy2[0] = 8
+            cowboy1[0] = 4
+	if ref_frame + 15 == frame_count:
+	    dynamite[0] = 2
+            cowboy1[0] = 5
+            cowboy2[0] = 7
+        if ref_frame + 20 == frame_count:
+	    cowboy2[0] = 9
 
 
 def score(cowboy1_win:bool,cowboy2:bool):
@@ -113,63 +118,106 @@ def score(cowboy1_win:bool,cowboy2:bool):
     elif cowboy1_win == False and cowboy2_win == True:
         cowboy2_score += 1
 
+cowboy1_score = 0
+cowboy2_score = 0
+cowboy_count = -1
+diff_setting = ""
 
 def game_setup(p1_button:bool,p2_button:bool,coin_button:bool):
     """this is called once to initialize your game features"""
-    global frame_counter
+    global frame_count
+    global comp_frames
+    global final_frame
+    global temp_cowboy1_score 
+    global temp_cowboy2_score
+    global cowboy1_win
+    global cowboy2_win 
+    global ref_frame
     game_group.append(bkgnd)
     game_group.append(cowboy1)
     game_group.append(cowboy2)
     game_group.append(dynamite)
-    frame_counter = 0
-
+    frame_count = 0
+    comp_frames = -1
+    final_frame = -1
+    temp_cowboy1_score = -1
+    temp_cowboy2_score = -1
+    cowboy1_win = False
+    cowboy2_win = False
+    ref_frame = -1
 def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
     """this is called every frame, you need to update all your game objects
         returns True when the game is over, else return false"""
-    global frame_counter
-    cowboy1[0] = 0
-    cowboy2[0] = 6
-    dynamite[0] = 0
+    global frame_count
+    global comp_frames
+    global final_frame
+    global temp_cowboy1_score 
+    global temp_cowboy2_score
+    global cowboy1_win
+    global cowboy2_win
+    global ref_frame
+    if frame_count = 0:
+	cowboy1[0] = 0
+	cowboy2[0] = 6
+	dynamite[0] = 0
+	set_comp_frames()
+	final_frame = random.randint(10,60)
+	temp_cowboy1_score = cowboy1_score
+	temp_cowboy2_score = cowboy2_score
+	cowboy1_win = False
+	cowboy2_win = False
+	ref_frame = -1
+    if cowboy_count == 1 or cowboy_count == 2 and diff_setting == "casual" or diff_setting == "challenging":
+    	frame_count += 1
     if cowboy_count != 1 or cowboy_count != 2:
         player_count(p1_button,p2_button)
-    if diff_setting != "casual" or diff_setting != "challenging":
+    elif cowboy_count == 1:
+	if diff_setting != "casual" or diff_setting != "challenging":
         difficulty(p1_button,p2_button)
-    if cowboy_count == 1:
-        final_frame = random.randint(10,60)
-	comp_react = final_frame + comp_frames
-	temp_cowboy1_score = cowboy1_score
-	temp_cowboy2_score = cowboy2_score
-        while True:
-	    frame_count += 1
-	    if frame_count < final_frame:
-		continue
-	    dynamite[0] = 1
-	    if cowboy1_score == temp_cowboy1_score + 1 or cowboy2_score == temp_cowboy2_score + 1:
-	        break
-            if p1_button:
-            	score(True,False)
-		win_animate(True,False) 
-            elif frame_count == comp_react:
-                score(False,True)
-		win_animate(False, True)
+        elif diff_setting == "casual" or diff_setting == "challenging":
+	    if cowboy1_score != temp_cowboy1_score + 1 or cowboy2_score != temp_cowboy2_score + 1:
+	        if frame_count >= final_frame:
+	            if cowboy1_win == False and cowboy2_win == False
+			dynamite[0] = 1
+                    	if p1_button:
+			    cowboy1_win = True
+			    ref_frame = frame_count
+	                    win_animate(True,False)
+            	    	elif frame_count == final_frame + comp_frames:
+		            cowboy2_win = True
+			    ref_frame = frame_count
+			    win_animate(False, True)
+		    elif cowboy1_win == True:
+			win_animate(True, False)
+			if cowboy1[0] == [3]
+                            score(True,False)
+		    elif cowboy2_win == True:
+			win_animate(False, True)
+			if cowboy2[0] == 9
+	                    score(False,True)
     elif cowboy_count == 2:
-        final_frame = random.randint(10,60)
-	temp_cowboy1_score = cowboy1_score
-	temp_cowboy2_score = cowboy2_score
-        while True:
-	    frame_count += 1
-	    if frame_count < final_frame:
-		continue
-	    dynamite[0] = 1
-	    if cowboy1_score == temp_cowboy1_score + 1 or cowboy2_score == temp_cowboy2_score + 1:
-	        break
-            if p1_button:
-            	score(True,False)
-		win_animate(True,False) 
-            elif p2_button:
-                score(False,True)
-		win_animate(False, True)
-    frame_count = 0
+	if cowboy1_score != temp_cowboy1_score + 1 or cowboy2_score != temp_cowboy2_score + 1:
+	    if frame_count >= final_frame:
+	    	if cowboy1_win == False and cowboy2_win == False
+		    dynamite[0] = 1
+                    if p1_button:
+			cowboy1_win = True
+			ref_frame = frame_count
+	                win_animate(True,False)
+            	    elif p2_button:
+		        cowboy2_win = True
+			ref_frame = frame_count
+			win_animate(False, True)
+		elif cowboy1_win == True:
+		    win_animate(True, False)
+		    if cowboy1[0] == [3]
+                        score(True,False)
+		elif cowboy2_win == True:
+		    win_animate(False, True)
+		    if cowboy2[0] == 9
+	                score(False,True)
+    if cowboy1_score == temp_cowboy1_score + 1 or cowboy2_score == temp_cowboy2_score + 1:
+	frame_count = 0
     if cowboy1_score == 2 or cowboy2_score == 2:
         return True
     return False
