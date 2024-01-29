@@ -167,7 +167,8 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
 	cowboy1_win = False
 	cowboy2_win = False
 	ref_frame = -1
-    frame_count += 1
+    if cowboy_count == 1 or cowboy_count == 2 and diff_setting == "casual" or diff_setting == "challenging":
+    	frame_count += 1
     if cowboy_count != 1 or cowboy_count != 2:
         player_count(p1_button,p2_button)
     if cowboy_count == 1:
