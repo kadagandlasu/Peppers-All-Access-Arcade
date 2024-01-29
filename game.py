@@ -171,7 +171,7 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
     	frame_count += 1
     if cowboy_count != 1 or cowboy_count != 2:
         player_count(p1_button,p2_button)
-    if cowboy_count == 1:
+    elif cowboy_count == 1:
 	if diff_setting != "casual" or diff_setting != "challenging":
         difficulty(p1_button,p2_button)
         elif diff_setting == "casual" or diff_setting == "challenging":
