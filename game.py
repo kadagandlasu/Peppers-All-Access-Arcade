@@ -21,7 +21,7 @@ cowboy1 = displayio.TileGrid(
     tile_height = 32
 )
 cowboy1.pixel_shader.make_transparent(10)
-cowboy1.y = 31
+cowboy1.y = 34
 
 cowboy2 = displayio.TileGrid(
     cowboys, 
@@ -32,7 +32,7 @@ cowboy2 = displayio.TileGrid(
     tile_height = 32
 )
 cowboy2.pixel_shader.make_transparent(10)
-cowboy2.x = 31
+cowboy2.x = 33
 cowboy2.y = 31
 
 dynamite = displayio.TileGrid(
@@ -44,7 +44,8 @@ dynamite = displayio.TileGrid(
     tile_height = 32
 )
 dynamite.pixel_shader.make_transparent(10)
-dynamite.x = 15
+dynamite.x = 16
+dynamite.y = 5
 
 
 def player_count(p1_button:bool, p2_button:bool):
@@ -87,7 +88,7 @@ def win_animate(cowboy1_win:bool,cowboy2_win:bool):
     if cowboy1_win == True and cowboy2_win == False:
         if ref_frame == frame_count:
 	    cowboy1[0] = 1
-	if ref_frame + 5 == frame_count
+	if ref_frame + 5 == frame_count:
             cowboy1[0] = 2
             cowboy2[0] = 10
 	if ref_frame + 15 == frame_count:
@@ -99,7 +100,7 @@ def win_animate(cowboy1_win:bool,cowboy2_win:bool):
     elif cowboy1_win == False and cowboy2_win == True:
         if ref_frame == frame_count:
 	    cowboy2[0] = 7
-	if ref_frame + 5 == frame_count
+	if ref_frame + 5 == frame_count:
             cowboy2[0] = 8
             cowboy1[0] = 4
 	if ref_frame + 15 == frame_count:
@@ -156,7 +157,7 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
     global cowboy1_win
     global cowboy2_win
     global ref_frame
-    if frame_count = 0:
+    if frame_count == 0:
 	cowboy1[0] = 0
 	cowboy2[0] = 6
 	dynamite[0] = 0
@@ -173,11 +174,11 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
         player_count(p1_button,p2_button)
     elif cowboy_count == 1:
 	if diff_setting != "casual" or diff_setting != "challenging":
-        difficulty(p1_button,p2_button)
+            difficulty(p1_button,p2_button)
         elif diff_setting == "casual" or diff_setting == "challenging":
 	    if cowboy1_score != temp_cowboy1_score + 1 or cowboy2_score != temp_cowboy2_score + 1:
 	        if frame_count >= final_frame:
-	            if cowboy1_win == False and cowboy2_win == False
+	            if cowboy1_win == False and cowboy2_win == False:
 			dynamite[0] = 1
                     	if p1_button:
 			    cowboy1_win = True
@@ -189,16 +190,16 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
 			    win_animate(False, True)
 		    elif cowboy1_win == True:
 			win_animate(True, False)
-			if cowboy1[0] == [3]
+			if cowboy1[0] == [3]:
                             score(True,False)
 		    elif cowboy2_win == True:
 			win_animate(False, True)
-			if cowboy2[0] == 9
+			if cowboy2[0] == 9:
 	                    score(False,True)
     elif cowboy_count == 2:
 	if cowboy1_score != temp_cowboy1_score + 1 or cowboy2_score != temp_cowboy2_score + 1:
 	    if frame_count >= final_frame:
-	    	if cowboy1_win == False and cowboy2_win == False
+	    	if cowboy1_win == False and cowboy2_win == False:
 		    dynamite[0] = 1
                     if p1_button:
 			cowboy1_win = True
@@ -210,11 +211,11 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
 			win_animate(False, True)
 		elif cowboy1_win == True:
 		    win_animate(True, False)
-		    if cowboy1[0] == [3]
+		    if cowboy1[0] == [3]:
                         score(True,False)
 		elif cowboy2_win == True:
 		    win_animate(False, True)
-		    if cowboy2[0] == 9
+		    if cowboy2[0] == 9:
 	                score(False,True)
     if cowboy1_score == temp_cowboy1_score + 1 or cowboy2_score == temp_cowboy2_score + 1:
 	frame_count = 0
