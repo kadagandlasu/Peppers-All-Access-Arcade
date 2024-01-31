@@ -52,12 +52,9 @@ dynamite.y = 2
 
 
 def set_comp_react():
-    """randomizes computer reaction time according to set difficulty"""
+    """randomizes computer reaction time"""
     global comp_react
-    if difficulty == "casual":
-        comp_react = random.randint(6,8)
-    elif difficulty == "hard":
-        comp_react = random.randint(4,5)
+    comp_react = random.randint(4,8)
 
 
 def win_animate(cowboy1_win:bool,cowboy2_win:bool):
@@ -99,11 +96,10 @@ def set_score():
     elif cowboy1_win == False and cowboy2_win == True:
         cowboy2_score += 1
 
-#declares and initializes scores, player count, and difficulty
+#declares and initializes scores, player count
 cowboy1_score = 0
 cowboy2_score = 0
 cowboy_count = -1
-difficulty = ""
 
 #sets up text box for future use
 text = "                   "
@@ -139,7 +135,7 @@ def game_setup(p1_button:bool,p2_button:bool,coin_button:bool):
     cowboy2_win = False
     start_animate = -1
 def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
-    """asks for player county and difficulty, and repeats a round until a cowboy wins twice (best out of 3)"""
+    """asks for player county, and repeats a round until a cowboy wins twice (best out of 3)"""
     global frame_count
     global comp_react
     global explode_frame
@@ -148,7 +144,6 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
     global cowboy1_win
     global cowboy2_win
     global start_animate
-    global difficulty
     global cowboy_count
     #reset variables for frames, winning, and scorekeeping before each round
     if frame_count == 0:
@@ -162,11 +157,9 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
         cowboy1_win = False
         cowboy2_win = False
         start_animate = -1
-    #begin counting frames once player count and difficulty is selected
-    if cowboy_count == 1 and difficulty == "casual" or difficulty == "hard":
+    #begin counting frames once player count is selected
+    if cowboy_count == 1 or cowboy_count == 2:
     	frame_count += 1
-    if cowboy_count == 2:
-        frame_count += 1
     #asks for player count
     if cowboy_count != 1 and cowboy_count != 2:
         text_area.text = "  PLAYERS" + "\nP1:1  P2:2"
@@ -178,38 +171,28 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
             cowboy_count = 2
     #starts singleplayer round
     elif cowboy_count == 1:
-	#asks for difficulty for singleplayer
-        if difficulty != "casual" and difficulty != "hard":
-            text_area.text = "P1: CASUAL" + "\nP2: HARD"
-            if p1_button:
-                text_area.text = ""
-                difficulty = "casual"
-            elif p2_button:
-                text_area.text = ""
-                difficulty = "hard"
-        elif difficulty == "casual" or difficulty == "hard":
 	#if either score hasn't increased yet, stay in the round
-            if cowboy1_score != past_cowboy1_score + 1 or cowboy2_score != past_cowboy2_score + 1:
+        if cowboy1_score != past_cowboy1_score + 1 or cowboy2_score != past_cowboy2_score + 1:
 	    #explode dynamite after certain number of frames, check input and animate according to fastest cowboy
-                if frame_count >= explode_frame:
-                    if cowboy1_win == False and cowboy2_win == False:
-                        dynamite[0] = 1
-                    	if p1_button:
-                            cowboy1_win = True
-                            start_animate = frame_count
-                            win_animate(True,False)
-                        elif frame_count >= explode_frame + comp_react:
-                            cowboy2_win = True
-                            start_animate = frame_count
-                            win_animate(False, True)
-                    elif cowboy1_win == True:
-                        win_animate(True, False)
-                        if cowboy1[0] == 3:
-                            set_score()
-                    elif cowboy2_win == True:
+            if frame_count >= explode_frame:
+                if cowboy1_win == False and cowboy2_win == False:
+                    dynamite[0] = 1
+                    if p1_button:
+                        cowboy1_win = True
+                        start_animate = frame_count
+                        win_animate(True,False)
+                    elif frame_count >= explode_frame + comp_react:
+                        cowboy2_win = True
+                        start_animate = frame_count
                         win_animate(False, True)
-                        if cowboy2[0] == 9:
-                            set_score()
+                elif cowboy1_win == True:
+                    win_animate(True, False)
+                    if cowboy1[0] == 3:
+                        set_score()
+                elif cowboy2_win == True:
+                    win_animate(False, True)
+                    if cowboy2[0] == 9:
+                        set_score()
     #starts mulitplayer round
     elif cowboy_count == 2:
     #if either score hasn't increased yet, stay in the round
@@ -247,7 +230,6 @@ def game_over(p1_button:bool,p2_button:bool,coin_button:bool):
     """remove sprites, display score and cowboy winner, remove text and background, and reset variables"""
     global cowboy1_score
     global cowboy2_score
-    global difficulty
     global player_count
     #remove cowboys and dynamite
     game_group.remove(cowboy1)
@@ -259,17 +241,17 @@ def game_over(p1_button:bool,p2_button:bool,coin_button:bool):
     text_area.text = str(cowboy1_score) + " - " + str(cowboy2_score)
     time.sleep(3)
     text_area.x = 2
+    text_area.y = 28
     if cowboy1_score == 2:
-    	text_area.text = "RED COWBOY WINS"
+    	text_area.text = "RED COWBOY" + "\n   WINS"
     elif cowboy2_score == 2:
-        text_area.text = "BLUE COWBOY WINS"
+        text_area.text = "BLUECOWBOY" + "\n   WINS"
     time.sleep(3)
-    #remove test and background while resetting score, difficulty, and player count variables
+    #remove test and background while resetting score,and player count variables
     game_group.remove(text_area)
     #game_group.remove(desert)
     cowboy1_score = 0
     cowboy2_score = 0
-    difficulty = ""
     cowboy_count = -1
 
 
