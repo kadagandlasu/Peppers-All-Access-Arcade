@@ -52,12 +52,12 @@ dynamite.y = 2
 
 
 def set_comp_react():
-   """randomizes computer reaction time according to set difficulty"""
+    """randomizes computer reaction time according to set difficulty"""
     global comp_react
     if difficulty == "casual":
-	comp_react = random.randint(6,8)
+        comp_react = random.randint(6,8)
     elif difficulty == "hard":
-	comp_react = random.randint(4,5)
+        comp_react = random.randint(4,5)
 
 
 def win_animate(cowboy1_win:bool,cowboy2_win:bool):
@@ -110,8 +110,8 @@ text = "                   "
 font = terminalio.FONT
 color = 0x0000FF
 text_area = label.Label(font, text = text, color = color)
-text_area.x = 15
-text_area.y = 8
+text_area.x = 3
+text_area.y = 6
 
 def game_setup(p1_button:bool,p2_button:bool,coin_button:bool):
     """graphics are added to the screen and variables for frame recording, win conditions, and scorekeeping are set up"""
@@ -124,7 +124,7 @@ def game_setup(p1_button:bool,p2_button:bool,coin_button:bool):
     global cowboy2_win 
     global start_animate
     #adding graphics
-    game_group.append(desert)
+    #game_group.append(desert)
     game_group.append(dynamite)
     game_group.append(cowboy1)
     game_group.append(cowboy2)
@@ -169,7 +169,7 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
         frame_count += 1
     #asks for player count
     if cowboy_count != 1 and cowboy_count != 2:
-        text_area.text = "PLAYERS" + "\nP1: 1  P2: 2"
+        text_area.text = "  PLAYERS" + "\nP1:1  P2:2"
         if p1_button:
             text_area.text = ""
             cowboy_count = 1
@@ -180,7 +180,7 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
     elif cowboy_count == 1:
 	#asks for difficulty for singleplayer
         if difficulty != "casual" and difficulty != "hard":
-            text_area.text = "DIFFICULTY" + "\nP1: CASUAL P2: HARD"
+            text_area.text = "P1: CASUAL" + "\nP2: HARD"
             if p1_button:
                 text_area.text = ""
                 difficulty = "casual"
@@ -255,8 +255,10 @@ def game_over(p1_button:bool,p2_button:bool,coin_button:bool):
     game_group.remove(dynamite)
     #display score and cowboy winner
     text_area.y = 31
+    text_area.x = 17
     text_area.text = str(cowboy1_score) + " - " + str(cowboy2_score)
     time.sleep(3)
+    text_area.x = 2
     if cowboy1_score == 2:
     	text_area.text = "RED COWBOY WINS"
     elif cowboy2_score == 2:
@@ -264,7 +266,7 @@ def game_over(p1_button:bool,p2_button:bool,coin_button:bool):
     time.sleep(3)
     #remove test and background while resetting score, difficulty, and player count variables
     game_group.remove(text_area)
-    game_group.remove(desert)
+    #game_group.remove(desert)
     cowboy1_score = 0
     cowboy2_score = 0
     difficulty = ""
