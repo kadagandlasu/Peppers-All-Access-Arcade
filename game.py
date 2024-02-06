@@ -15,11 +15,11 @@ desert = displayio.OnDiskBitmap("western/desert.bmp")
 desert = displayio.TileGrid(desert, pixel_shader = desert.pixel_shader)
 
 cowboy1 = displayio.TileGrid(
-    cowboys, 
-    pixel_shader = cowboys.pixel_shader,                 
-    width = 1, 
-    height = 1, 
-    tile_width = 32, 
+    cowboys,
+    pixel_shader = cowboys.pixel_shader,
+    width = 1,
+    height = 1,
+    tile_width = 32,
     tile_height = 32
 )
 cowboy1.pixel_shader.make_transparent(10)
@@ -27,34 +27,34 @@ cowboy1.y = 34
 cowboy1.x = -5
 
 cowboy2 = displayio.TileGrid(
-    cowboys, 
+    cowboys,
     pixel_shader = cowboys.pixel_shader,
-    width = 1, 
+    width = 1,
     height = 1,
-    tile_width = 32, 
+    tile_width = 32,
     tile_height = 32
 )
 cowboy2.pixel_shader.make_transparent(10)
-cowboy2.x = 33
+cowboy2.x = 40
 cowboy2.y = 31
 
 dynamite = displayio.TileGrid(
-    dynamite, 
+    dynamite,
     pixel_shader = dynamite.pixel_shader,
-    width = 1, 
+    width = 1,
     height = 1,
-    tile_width = 32, 
+    tile_width = 32,
     tile_height = 32
 )
 dynamite.pixel_shader.make_transparent(10)
 dynamite.x = 16
-dynamite.y = 2
+dynamite.y = 4
 
 
 def set_comp_react():
     """randomizes computer reaction time"""
     global comp_react
-    comp_react = random.randint(4,8)
+    comp_react = random.randint(1,3)
 
 
 def win_animate(cowboy1_win:bool,cowboy2_win:bool):
@@ -62,29 +62,47 @@ def win_animate(cowboy1_win:bool,cowboy2_win:bool):
     #sprite animations when cowboy 1 wins
     if cowboy1_win == True and cowboy2_win == False:
         if start_animate == frame_count:
+            cowboy1.x -= 3
             cowboy1[0] = 1
         if start_animate + 4 == frame_count:
             cowboy1[0] = 2
+            cowboy2.x -= 5
             cowboy2[0] = 10
         if start_animate + 8 == frame_count:
             dynamite[0] = 2
+            cowboy2.x += 4
+            cowboy2.y += 2
             cowboy2[0] = 11
             cowboy1[0] = 1
         if start_animate + 12 == frame_count:
+            cowboy1.x -= 3
+            cowboy1.y -= 1
             cowboy1[0] = 3
     #sprite animations when cowboy 2 wins
     elif cowboy1_win == False and cowboy2_win == True:
         if start_animate == frame_count:
+            cowboy2.x -= 1
+            cowboy2.y += 1
             cowboy2[0] = 7
         if start_animate + 4 == frame_count:
+            cowboy2.x -= 7
+            cowboy2.y -= 1
             cowboy2[0] = 8
+            cowboy1.y += 1
             cowboy1[0] = 4
         if start_animate + 8 == frame_count:
             dynamite[0] = 2
+            cowboy1.x += 3
+            cowboy1.y += 2
             cowboy1[0] = 5
+            cowboy2.x += 7
+            cowboy2.y += 1
             cowboy2[0] = 7
         if start_animate + 12 == frame_count:
+            cowboy2.x -= 4
+            cowboy2.y -= 1
             cowboy2[0] = 9
+
 
 
 def set_score():
@@ -107,17 +125,17 @@ font = terminalio.FONT
 color = 0x0000FF
 text_area = label.Label(font, text = text, color = color)
 text_area.x = 3
-text_area.y = 6
+text_area.y = 5
 
 def game_setup(p1_button:bool,p2_button:bool,coin_button:bool):
     """graphics are added to the screen and variables for frame recording, win conditions, and scorekeeping are set up"""
     global frame_count
     global comp_react
     global explode_frame
-    global past_cowboy1_score 
+    global past_cowboy1_score
     global past_cowboy2_score
     global cowboy1_win
-    global cowboy2_win 
+    global cowboy2_win
     global start_animate
     #adding graphics
     #game_group.append(desert)
@@ -139,7 +157,7 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
     global frame_count
     global comp_react
     global explode_frame
-    global past_cowboy1_score 
+    global past_cowboy1_score
     global past_cowboy2_score
     global cowboy1_win
     global cowboy2_win
@@ -151,18 +169,22 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
         cowboy2[0] = 6
         dynamite[0] = 0
         set_comp_react()
-        explode_frame = random.randint(4,14)
+        explode_frame = random.randint(4,12)
         past_cowboy1_score = cowboy1_score
         past_cowboy2_score = cowboy2_score
         cowboy1_win = False
         cowboy2_win = False
         start_animate = -1
+        cowboy1.y = 34
+        cowboy1.x = -5
+        cowboy2.x = 40
+        cowboy2.y = 31
     #begin counting frames once player count is selected
     if cowboy_count == 1 or cowboy_count == 2:
     	frame_count += 1
     #asks for player count
     if cowboy_count != 1 and cowboy_count != 2:
-        text_area.text = "  PLAYERS" + "\nP1:1  P2:2"
+        text_area.text = " PLAYERS" + "\nP1:1  P2:2"
         if p1_button:
             text_area.text = ""
             cowboy_count = 1
@@ -241,11 +263,11 @@ def game_over(p1_button:bool,p2_button:bool,coin_button:bool):
     text_area.text = str(cowboy1_score) + " - " + str(cowboy2_score)
     time.sleep(3)
     text_area.x = 2
-    text_area.y = 28
+    text_area.y = 26
     if cowboy1_score == 2:
-    	text_area.text = "RED COWBOY" + "\n   WINS"
+    	text_area.text = " COWBOY 1" + "\n   WINS"
     elif cowboy2_score == 2:
-        text_area.text = "BLUECOWBOY" + "\n   WINS"
+        text_area.text = " COWBOY 2" + "\n   WINS"
     time.sleep(3)
     #remove test and background while resetting score,and player count variables
     game_group.remove(text_area)
