@@ -243,7 +243,7 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
 	    #explode dynamite after certain number of frames, check input and animate according to fastest cowboy
             elif frame_count >= explode_frame:
                 if cowboy1_win == False and cowboy2_win == False:
-                    dynamite[0] = 1
+                    dynamite[0] = 2
                     if p1_button:
                         cowboy1_win = True
                         start_animate = frame_count
@@ -280,7 +280,7 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
 	    #explode dynamite after certain number of frames, check input and animate according to fastest cowboy
             elif frame_count >= explode_frame:
                 if cowboy1_win == False and cowboy2_win == False:
-                    dynamite[0] = 1
+                    dynamite[0] = 2
                     if p1_button:
                         cowboy1_win = True
                         start_animate = frame_count
