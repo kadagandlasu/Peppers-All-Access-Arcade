@@ -116,6 +116,10 @@ def win_animate(cowboy1_win:bool,cowboy2_win:bool):
             cowboy2[0] = 8
         if start_animate + 8 == frame_count:
 	    dynamite[0] = 3
+	    cowboy1.y = 34
+            cowboy1.x = -5
+            cowboy2.x = 40
+            cowboy2.y = 31
 	    cowboy1.y += 1
             cowboy1[0] = 4
 	    cowboy2.x -= 5
@@ -260,6 +264,10 @@ def game_frame(p1_button:bool,p2_button:bool,coin_button:bool) -> bool:
                     win_animate(False, True)
                     if cowboy2[0] == 9:
                         set_score()
+		elif cowboy_draw == True:
+	            win_animate(True,True)
+		    if cowboy1[0] == 5 and cowboy2[0] == 11:
+			set_score()
     #starts mulitplayer round
     elif cowboy_count == 2:
     #if either score hasn't increased yet, stay in the round
